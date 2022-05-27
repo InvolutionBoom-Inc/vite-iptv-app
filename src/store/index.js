@@ -6,6 +6,8 @@ const store = createStore({
     return {
       inptList: [],
       watching: [],
+      searchResultInfo: [],
+      currentPage: 1,
     };
   },
   getters: {},
@@ -13,9 +15,23 @@ const store = createStore({
     setIPTVlist(state, data) {
       state.inptList = data;
     },
+
     addWatching(state, data) {
       state.watching = [];
       state.watching.push(data);
+    },
+
+    addSearchResultInfo(state, data) {
+      state.searchResultInfo = [];
+      state.searchResultInfo = data;
+    },
+
+    deleteSearchResultInfo(state) {
+      state.searchResultInfo = [];
+    },
+
+    updateCurrentPage(state, pageNum) {
+      state.currentPage = pageNum;
     },
   },
   actions: {

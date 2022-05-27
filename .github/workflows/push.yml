@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - wuhonghao
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest

@@ -60,8 +60,7 @@ const tvPlayModel = () => {
         var promise = await myPlyer.play();
       } catch (error) {
         message.error("播放失败，源加载出错啦！换一个看吧~");
-
-        returnHome();
+        // returnHome();
       }
     });
   });
@@ -94,11 +93,20 @@ const { returnHome, playerInfo } = tvPlayModel();
     width: 100px;
     height: 40px;
   }
+  @media screen and (max-width: 1024px) {
+    .vjs-default-skin {
+      margin-top: 50px;
+      width: 100%;
+      min-height: 300px;
+    }
+  }
 
-  .vjs-default-skin {
-    margin-top: 50px;
-    width: 75%;
-    min-height: 500px;
+  @media screen and (min-width: 1024px) {
+    .vjs-default-skin {
+      margin-top: 50px;
+      width: 60%;
+      min-height: 500px;
+    }
   }
 }
 </style>
