@@ -38,7 +38,7 @@ const store = createStore({
     async setIPTVlist(context) {
       const list = await getTvList();
       const result = parser.parse(list);
-      console.log(result);
+
       context.commit("setIPTVlist", result);
     },
   },
