@@ -10,7 +10,9 @@ const store = createStore({
       currentPage: 1,
     };
   },
+
   getters: {},
+
   mutations: {
     setIPTVlist(state, data) {
       state.inptList = data;
@@ -34,6 +36,7 @@ const store = createStore({
       state.currentPage = pageNum;
     },
   },
+
   actions: {
     async setIPTVlist(context) {
       const list = await getTvList();

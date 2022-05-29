@@ -20,7 +20,7 @@
           <a-empty :description="null" v-if="!item.tvg.logo" />
           <img
             v-else
-            style="max-width: 150px; max-height: 200px"
+            style="max-width: 50%; max-height: 50%"
             alt="example"
             :src="item.tvg.logo ? item.tvg.logo : ''"
           />
@@ -120,12 +120,12 @@ const iptvListTotal = computed(() => {
         width: 100%;
       }
     }
-    @media screen and (min-width: 768px) and (max-width: 1366px) {
+    @media screen and (min-width: 768px) and (max-width: 1980px) {
       .iptv-list {
         flex: 1 0 20%;
       }
     }
-    @media screen and (min-width: 1366px) {
+    @media screen and (min-width: 1980px) {
       .iptv-list {
         flex: 1 0 10%;
       }

@@ -2,7 +2,6 @@
 
 <template>
   <router-view></router-view>
-  <!-- <footer>@vite-iptv-app</footer> -->
 </template>
 
 <style lang="scss">
