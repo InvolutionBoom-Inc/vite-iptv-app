@@ -13,9 +13,9 @@ const serverAxios = axios.create({
 serverAxios.interceptors.request.use(
   (config) => {
     // 如果上一个请求还未结束则取消请求
-    if (typeof cancel === "function") {
-      cancel("取消请求");
-    }
+    // if (typeof cancel === "function") {
+    //   cancel("取消请求");
+    // }
     config.cancelToken = new CancelToken((c) => {
       cancel = c;
     });

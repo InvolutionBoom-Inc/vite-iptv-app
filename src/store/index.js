@@ -1,10 +1,15 @@
 import { createStore } from "vuex";
-import { getTvList } from "../http/api/user.js";
+import { getTvList, testURL } from "../http/api/user.js";
 import parser from "iptv-playlist-parser";
 const store = createStore({
   state() {
     return {
-      channelURL: ["https://iptv-org.github.io/iptv/countries/cn.m3u"],
+      channelURL: [
+        {
+          url: "https://iptv-org.github.io/iptv/countries/cn.m3u",
+          status: true,
+        },
+      ],
       currentURL: "",
       inptList: [],
       watching: [],
@@ -38,9 +43,12 @@ const store = createStore({
       state.currentPage = pageNum;
     },
 
-    updateChannelURL(state, url) {
-      if (state.channelURL.indexOf(url) == -1) {
-        state.channelURL.push(url);
+    updateChannelURL(state, urlData) {
+      if (
+        state.channelURL.find((element) => element.url === urlData.url) ===
+        void 0
+      ) {
+        state.channelURL.push(urlData);
       }
     },
 

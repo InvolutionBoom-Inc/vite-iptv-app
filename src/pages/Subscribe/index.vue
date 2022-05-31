@@ -75,10 +75,17 @@ const download = async () => {
 
       const res = await testURL(inputURL.value);
 
-      if (store.state.channelURL.indexOf(inputURL.value) != -1) {
+      if (
+        store.state.channelURL.find(
+          (element) => element.url === inputURL.value
+        ) != void 0
+      ) {
         message.info("Channel already exists");
       } else {
-        store.commit("updateChannelURL", inputURL.value);
+        store.commit("updateChannelURL", {
+          url: inputURL.value,
+          state: "true",
+        });
 
         message.success("Add Channel successful");
       }
@@ -90,7 +97,20 @@ const download = async () => {
   }
 };
 
-const channelURL = computed(() => store.state.channelURL);
+const channelURL = computed(() => {
+  if (store.state.channelURL.length > 0) {
+    store.state.channelURL.forEach(async (item) => {
+      try {
+        const res = await testURL(item.url);
+
+        item.status = true;
+      } catch (error) {
+        item.status = false;
+      }
+    });
+    return store.state.channelURL;
+  }
+});
 </script>
 
 <style lang="scss">

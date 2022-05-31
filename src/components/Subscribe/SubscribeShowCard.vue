@@ -3,11 +3,20 @@
     v-for="(item, index) in channelURL"
     :key="channelURL"
     class="showURL"
-    v-on:click.self="toHome(item)"
+    v-on:click.self="toHome(item.url)"
   >
-    <a v-on:click.self="toHome(item)">
-      源{{ index + 1 }} :{{ item.split("/")[item.split("/").length - 1] }}</a
+    <a v-on:click.self="toHome(item.url)">
+      源{{ index + 1 }} :{{
+        item.url.split("/")[item.url.split("/").length - 1]
+      }}</a
     >
+
+    <a-tooltip :title="item.status === true ? 'url ok' : 'url do not use'">
+      <div
+        class="url-status"
+        :class="item.status === true ? 'success' : 'error'"
+      ></div>
+    </a-tooltip>
 
     <a-button size="large" @click="deleteURL(item)">
       <template #icon><DeleteOutlined /> </template>
@@ -59,6 +68,22 @@ const deleteURL = (url) => {
     margin-right: 10px;
     min-width: 150px;
     text-align: left;
+  }
+
+  .url-status {
+    content: "";
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: relative;
+    left: -10px;
+    top: 18px;
+  }
+  .success {
+    background: rgb(66, 133, 244);
+  }
+  .error {
+    background: red;
   }
 
   .ant-btn {
