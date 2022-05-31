@@ -20,7 +20,7 @@
           <a-empty :description="null" v-if="!item.tvg.logo" />
           <img
             v-else
-            style="max-width: 50%; max-height: 50%"
+            style="max-width: 100px; max-height: 100px"
             alt="example"
             :src="item.tvg.logo ? item.tvg.logo : ''"
           />

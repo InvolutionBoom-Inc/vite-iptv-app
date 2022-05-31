@@ -36,7 +36,12 @@ const store = useStore();
 
 // 回到主页
 const returnHome = () => {
-  router.push("/");
+  router.push({
+    name: "Home",
+    params: {
+      url: store.state.currentURL,
+    },
+  });
 };
 
 //播放器与播放状态初始化

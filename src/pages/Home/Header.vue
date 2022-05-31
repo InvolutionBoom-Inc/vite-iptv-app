@@ -5,6 +5,11 @@
     title="Home"
     sub-title="Welcome to IPTV"
     id="app-header"
+    @back="
+      () => {
+        router.push('/Subscribe');
+      }
+    "
   >
     <template #extra>
       <!-- 搜索 -->
@@ -35,7 +40,7 @@
                 size="large"
                 :placeholder="
                   iptvListAll
-                    ? '中国源频道数量  ' + iptvListAll.length
+                    ? '本源频道数量  ' + iptvListAll.length
                     : '频道数量  ' + 0
                 "
                 enter-button
@@ -65,6 +70,7 @@ const { iptvListAll } = toRefs(props);
 const store = useStore();
 const inputValue = ref("");
 const dataSource = ref([]);
+const router = useRouter();
 
 // 搜索结果
 const searchResultInfo = ref(store.state.searchResultInfo);

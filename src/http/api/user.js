@@ -1,10 +1,17 @@
 import serverAxios from "../index";
 
-const getTvList = () => {
+const getTvList = (url) => {
   return serverAxios({
-    url: "https://iptv-org.github.io/iptv/countries/cn.m3u",
+    url: url,
     method: "get",
   });
 };
 
-export { getTvList };
+const testURL = (url) => {
+  return serverAxios({
+    url: url,
+    method: "get",
+  });
+};
+
+export { getTvList, testURL };

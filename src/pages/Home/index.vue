@@ -12,13 +12,18 @@
 <script setup>
 import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 import Header from "./Header.vue";
 
 const store = useStore();
-const iptvListAll = computed(() => store.state.inptList.items);
+const iptvListAll = computed(() =>
+  store.state.inptList ? store.state.inptList.items : null
+);
+
+const route = useRoute();
 
 onMounted(() => {
-  store.dispatch("setIPTVlist");
+  store.dispatch("setIPTVlist", store.state.currentURL);
 });
 </script>
 

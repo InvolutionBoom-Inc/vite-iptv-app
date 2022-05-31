@@ -2,11 +2,18 @@ import { createRouter, createWebHashHistory } from "vue-router";
 
 const Home = () => import("../pages/Home/index.vue");
 const TvPlay = () => import("../pages/TvPlay.vue");
+const Subscribe = () => import("../pages/Subscribe/index.vue");
 
 const routes = [
-  { path: "/", name: "Home", component: Home },
+  { path: "/Home", name: "Home", component: Home },
   { path: "/TvPlayPage", name: "TvPlayPage", component: TvPlay },
+  { path: "/Subscribe", name: "Subscribe", component: Subscribe },
+  {
+    path: "/:pathMatch(.*)",
+    redirect: "/Subscribe",
+  },
 ];
 
 const router = createRouter({ history: createWebHashHistory(), routes });
+
 export default router;

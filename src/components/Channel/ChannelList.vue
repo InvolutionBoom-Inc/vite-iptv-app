@@ -1,5 +1,5 @@
 <template>
-  <div class="app-channel">
+  <div class="channel-list">
     <a-list
       class="demo-loadmore-list"
       item-layout="horizontal"

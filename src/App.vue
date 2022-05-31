@@ -1,4 +1,29 @@
-<script setup></script>
+<script setup>
+import { onBeforeUnmount, onMounted, onUnmounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useStore } from "vuex";
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
+
+watch(route, (to) => {
+  if (to.name === "Home" && store.state.currentURL === "") {
+    router.push("/Subscribe");
+  }
+});
+
+onMounted(() => {
+  store.commit("initStore", JSON.parse(localStorage.getItem("videoInfo")));
+});
+
+window.onbeforeunload = () => {
+  store.commit("clearIPTVList");
+
+  store.commit("deleteSearchResultInfo");
+
+  localStorage.setItem("videoInfo", JSON.stringify(store.state));
+};
+</script>
 
 <template>
   <router-view></router-view>
