@@ -65,7 +65,11 @@ onMounted(() => {
     try {
       var promise = await myPlyer.play();
     } catch (error) {
-      message.error("播放失败，源加载出错啦！换一个看吧~");
+      if (
+        error.message == "Failed to load because no supported source was found."
+      ) {
+        message.error("播放失败，源加载出错啦！换一个看吧~");
+      }
     }
   });
 });

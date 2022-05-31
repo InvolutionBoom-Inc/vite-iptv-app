@@ -24,6 +24,8 @@ const route = useRoute();
 
 onMounted(() => {
   store.dispatch("setIPTVlist", store.state.currentURL);
+
+  console.log(store.state.inptList);
 });
 </script>
 

@@ -77,6 +77,10 @@ const store = createStore({
 
       const result = parser.parse(list);
 
+      result.items.forEach((element) => {
+        element.status = "not-test";
+      });
+
       context.commit("setIPTVlist", result);
     },
   },

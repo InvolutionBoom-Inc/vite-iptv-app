@@ -13,11 +13,13 @@
         v-for="(item, index) in iptvListShow"
         :key="index"
         class="iptv-list"
-        @click="toDetails(item.name)"
+        v-on:click="toDetails(item.name)"
+        @mouseenter="testChannel(item.url)"
         :style="iptvListTotal < 10 ? 'flex:0.5 0 0;margin-top:50px;' : ''"
       >
         <template #cover>
           <a-empty :description="null" v-if="!item.tvg.logo" />
+
           <img
             v-else
             style="max-width: 100px; max-height: 100px"
@@ -26,7 +28,34 @@
           />
         </template>
         <a-card-meta :title="null">
-          <template #description>{{ item.name }}</template>
+          <template #description>
+            <a-tooltip
+              :title="
+                item.status === 'ok'
+                  ? 'url ok'
+                  : item.status === 'not-use'
+                  ? 'url do not use'
+                  : item.status === 'not-test'
+                  ? 'url not tested'
+                  : 'url testing'
+              "
+            >
+              <div
+                class="url-status"
+                :class="
+                  item.status === 'ok'
+                    ? 'success'
+                    : item.status === 'not-use'
+                    ? 'error'
+                    : item.status === 'not-test'
+                    ? 'not-test'
+                    : 'testing'
+                "
+              ></div>
+            </a-tooltip>
+
+            <div class="description">{{ item.name }}</div>
+          </template>
         </a-card-meta>
       </a-card>
     </div>
@@ -47,6 +76,7 @@
 import { useStore } from "vuex";
 import { computed, ref, toRefs, watch } from "vue";
 import { useRouter } from "vue-router";
+import { testURL } from "../../http/api/user.js";
 
 const props = defineProps({
   iptvListAll: {
@@ -95,6 +125,29 @@ const iptvListTotal = computed(() => {
     return iptvListAll.value ? iptvListAll.value.length : 1;
   }
 });
+
+const isTest = ref(false);
+const testChannel = async (url) => {
+  if (isTest.value) {
+    return;
+  }
+
+  isTest.value = true;
+
+  iptvListShow.value.find((channel) => channel.url === url).status = "testing";
+  try {
+    const res = await testURL(url);
+
+    iptvListShow.value.find((channel) => channel.url === url).status = "ok";
+
+    isTest.value = false;
+  } catch (error) {
+    iptvListShow.value.find((channel) => channel.url === url).status =
+      "not-use";
+
+    isTest.value = false;
+  }
+};
 </script>
 
 <style lang="scss">
@@ -152,6 +205,31 @@ const iptvListTotal = computed(() => {
           justify-content: center;
           min-height: 200px;
           align-items: center;
+        }
+
+        .ant-card-meta-description {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .url-status {
+            content: "";
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            position: relative;
+          }
+          .success {
+            background: rgb(66, 133, 244);
+          }
+          .error {
+            background: red;
+          }
+          .not-test {
+            background: rgb(128, 124, 124);
+          }
+          .testing {
+            background: rgb(250, 175, 0);
+          }
         }
       }
     }

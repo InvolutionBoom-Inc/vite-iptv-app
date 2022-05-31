@@ -85,6 +85,9 @@ const deleteURL = (url) => {
   .error {
     background: red;
   }
+  .not-test {
+    background: rgb(128, 124, 124);
+  }
 
   .ant-btn {
     align-self: center;

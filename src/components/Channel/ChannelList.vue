@@ -29,8 +29,35 @@
       <template #renderItem="{ item }">
         <a-list-item>
           <template #actions>
+            <a-tooltip
+              :title="
+                item.status === 'ok'
+                  ? 'url ok'
+                  : item.status === 'not-use'
+                  ? 'url do not use'
+                  : item.status === 'not-test'
+                  ? 'url not tested'
+                  : 'url testing'
+              "
+            >
+              <div
+                @click="testChannel(item.url)"
+                class="url-status"
+                :class="
+                  item.status === 'ok'
+                    ? 'success'
+                    : item.status === 'not-use'
+                    ? 'error'
+                    : item.status === 'not-test'
+                    ? 'not-test'
+                    : 'testing'
+                "
+              ></div>
+            </a-tooltip>
+
             <a key="list-loadmore-edit">收藏本台</a>
           </template>
+
           <a-skeleton avatar :title="false" :loading="!!item.loading" active>
             <a-list-item-meta
               @click="toDetails(item.name)"
@@ -39,6 +66,7 @@
               <template #title>
                 <a>{{ item.name }}</a>
               </template>
+
               <template #avatar>
                 <a-empty :description="null" v-if="!item.tvg.logo" />
                 <img :src="item.tvg.logo ? item.tvg.logo : ''" v-else />
@@ -102,6 +130,18 @@ const toDetails = (name) => {
 
   router.push("/TvPlayPage");
 };
+
+const testChannel = async (url) => {
+  iptvListShow.value.find((channel) => channel.url === url).status = "testing";
+  try {
+    const res = await testURL(url);
+
+    iptvListShow.value.find((channel) => channel.url === url).status = "ok";
+  } catch (error) {
+    iptvListShow.value.find((channel) => channel.url === url).status =
+      "not-use";
+  }
+};
 </script>
 
 <style lang="scss">
@@ -120,6 +160,26 @@ const toDetails = (name) => {
         color: white;
         background: #418dd3;
       }
+    }
+
+    .url-status {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      position: relative;
+    }
+    .success {
+      background: rgb(66, 133, 244);
+    }
+    .error {
+      background: red;
+    }
+    .not-test {
+      background: rgb(128, 124, 124);
+    }
+    .testing {
+      background: rgb(250, 175, 0);
     }
 
     .ant-spin-container {
@@ -193,6 +253,7 @@ const toDetails = (name) => {
     }
   }
 }
+
 @media screen and (min-width: 1024px) {
   .demo-loadmore-list {
     display: none;
