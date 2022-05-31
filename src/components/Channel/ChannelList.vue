@@ -84,6 +84,7 @@
 import { computed, ref, toRefs, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { testURL } from "../../http/api/user.js";
 const props = defineProps({
   iptvListAll: {
     type: Array,
@@ -138,6 +139,7 @@ const testChannel = async (url) => {
 
     iptvListShow.value.find((channel) => channel.url === url).status = "ok";
   } catch (error) {
+    console.log(error);
     iptvListShow.value.find((channel) => channel.url === url).status =
       "not-use";
   }

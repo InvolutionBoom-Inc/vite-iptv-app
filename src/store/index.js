@@ -61,8 +61,10 @@ const store = createStore({
     },
 
     initStore(state, videoInfo) {
-      for (let key of Object.keys(videoInfo)) {
-        state[key] = videoInfo[key];
+      if (videoInfo) {
+        for (let key of Object.keys(videoInfo)) {
+          state[key] = videoInfo[key];
+        }
       }
     },
 

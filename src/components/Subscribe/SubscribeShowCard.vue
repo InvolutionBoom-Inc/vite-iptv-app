@@ -7,7 +7,7 @@
   >
     <a v-on:click.self="toHome(item.url)">
       源{{ index + 1 }} :{{
-        item.url.split("/")[item.url.split("/").length - 1]
+        item ? item.url.split("/")[item.url.split("/").length - 1] : ""
       }}</a
     >
 
