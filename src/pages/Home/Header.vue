@@ -5,11 +5,7 @@
     title="Home"
     sub-title="Welcome to IPTV"
     id="app-header"
-    @back="
-      () => {
-        router.push('/Subscribe');
-      }
-    "
+    @back="back"
   >
     <template #extra>
       <!-- 搜索 -->
@@ -44,8 +40,9 @@
                     : '频道数量  ' + 0
                 "
                 enter-button
-              ></a-input-search> </a-auto-complete
-          ></a-col>
+              ></a-input-search>
+            </a-auto-complete>
+          </a-col>
         </a-row>
       </div>
     </template>
@@ -54,9 +51,11 @@
 
 <script setup>
 // 搜索模块
-import { ref, computed, toRefs, watch } from "vue";
+import { StarOutlined } from "@ant-design/icons-vue";
+import { ref, toRefs, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { back } from "../../hooks/utils.js";
 
 const props = defineProps({
   iptvListAll: {
@@ -131,11 +130,12 @@ const handleSearch = (val) => {
     .ant-page-header-heading {
       display: flex;
       flex-direction: column;
+
       .ant-page-header-heading-left {
         display: flex;
         justify-content: center;
         > span {
-          font-size: 28px;
+          font-size: 24px;
         }
         > .ant-page-header-heading-sub-title {
           margin-right: 0;

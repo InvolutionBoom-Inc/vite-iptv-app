@@ -5,7 +5,7 @@
       style="border: 1px solid rgb(235, 237, 240)"
       title="IPTV Details"
       :sub-title="playerInfo.length ? playerInfo[0].name : 'random'"
-      @back="returnHome"
+      @back="back"
     />
 
     <!-- 播放器 -->
@@ -29,20 +29,11 @@ import Videojs from "video.js/dist/video.min.js";
 import { computed, onMounted, onUnmounted } from "vue";
 import { useStore } from "vuex";
 import { message } from "ant-design-vue";
+import { back } from "../hooks/utils.js";
 
 // tv详情模块
 const router = useRouter();
 const store = useStore();
-
-// 回到主页
-const returnHome = () => {
-  router.push({
-    name: "Home",
-    params: {
-      url: store.state.currentURL,
-    },
-  });
-};
 
 //播放器与播放状态初始化
 let myPlyer = null;
@@ -68,7 +59,7 @@ onMounted(() => {
       if (
         error.message == "Failed to load because no supported source was found."
       ) {
-        message.error("播放失败，源加载出错啦！换一个看吧~");
+        message.error("播放失败，源加载出错啦！换一个看吧~", 0.5);
       }
     }
   });

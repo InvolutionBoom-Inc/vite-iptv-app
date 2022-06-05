@@ -15,6 +15,8 @@ const store = createStore({
       watching: [],
       searchResultInfo: [],
       currentPage: 1,
+      channelListScrollTop: 0,
+      collectionChannel: [],
     };
   },
 
@@ -71,6 +73,19 @@ const store = createStore({
     deleteURL(state, url) {
       state.channelURL.splice(state.channelURL.indexOf(url), 1);
     },
+
+    updateChannelListScrollTop(state, scrollTopNum) {
+      state.channelListScrollTop = scrollTopNum;
+    },
+
+    addCollection(state, channelInfo) {
+      state.collectionChannel.unshift(channelInfo);
+    },
+
+    deleteCollection(state, idx) {
+      console.log(idx);
+      state.collectionChannel.splice(idx, 1);
+    },
   },
 
   actions: {
@@ -83,7 +98,7 @@ const store = createStore({
         element.status = "not-test";
       });
 
-      context.commit("setIPTVlist", result);
+      context.commit("setIPTVlist", result.items);
     },
   },
 });

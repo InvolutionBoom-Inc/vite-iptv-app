@@ -3,6 +3,8 @@ import { computed, onBeforeUnmount, onMounted, onUnmounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { testURL } from "./http/api/user.js";
+import { message } from "ant-design-vue";
+
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
@@ -24,6 +26,13 @@ window.onbeforeunload = () => {
 
   localStorage.setItem("videoInfo", JSON.stringify(store.state));
 };
+
+// 配置message
+message.config({
+  duration: 2,
+  maxCount: 1,
+  rtl: true,
+});
 </script>
 
 <template>

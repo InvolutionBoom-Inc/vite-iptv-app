@@ -37,6 +37,18 @@
         </template>
         Download
       </a-button>
+
+      <a-button
+        type="primary"
+        size="large"
+        class="collection"
+        style="background: #4285f4"
+        @click="toCollection"
+      >
+        <template #icon>
+          <StarOutlined />
+        </template>
+      </a-button>
     </a-input-group>
 
     <div class="show-url-box">
@@ -50,6 +62,7 @@ import {
   CopyOutlined,
   DownloadOutlined,
   DeleteOutlined,
+  StarOutlined,
 } from "@ant-design/icons-vue";
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
@@ -80,17 +93,17 @@ const download = async () => {
           (element) => element.url === inputURL.value
         ) != void 0
       ) {
-        message.info("Channel already exists");
+        message.info("Channel already exists", 0.5);
       } else {
         store.commit("updateChannelURL", {
           url: inputURL.value,
           state: "true",
         });
 
-        message.success("Add Channel successful");
+        message.success("Add Channel successful", 0.5);
       }
     } catch (error) {
-      message.error(error.message);
+      message.error(error.message, 0.5);
     }
 
     downloading.value = false;
@@ -111,6 +124,10 @@ const channelURL = computed(() => {
     return store.state.channelURL;
   }
 });
+
+const toCollection = () => {
+  router.push("/Collection");
+};
 </script>
 
 <style lang="scss">
@@ -130,7 +147,12 @@ const channelURL = computed(() => {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
+
       .download {
+        margin-top: 50px;
+      }
+
+      .collection {
         margin-top: 50px;
       }
     }
@@ -152,6 +174,9 @@ const channelURL = computed(() => {
       .download {
         margin-top: 50px;
       }
+      .collection {
+        margin-top: 50px;
+      }
     }
     .input {
       width: calc(100% - 100px);
@@ -171,6 +196,9 @@ const channelURL = computed(() => {
       .download {
         margin-top: 50px;
       }
+      .collection {
+        margin-top: 50px;
+      }
     }
     .input {
       width: calc(100% - 200px);
@@ -188,6 +216,9 @@ const channelURL = computed(() => {
       justify-content: center;
       flex-wrap: wrap;
       .download {
+        margin-top: 50px;
+      }
+      .collection {
         margin-top: 50px;
       }
     }

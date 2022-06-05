@@ -86,6 +86,9 @@ const props = defineProps({
 });
 
 const { iptvListAll } = toRefs(props);
+watch(iptvListAll, (item) => {
+  console.log(item);
+});
 
 const store = useStore();
 const router = useRouter();
