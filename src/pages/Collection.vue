@@ -13,7 +13,7 @@
   />
 
   <main>
-    <div v-if="collectionChannel">
+    <div v-if="collectionChannel != null">
       <ChannelList
         :iptvListAll="collectionChannel"
         modelName="collection"
@@ -23,7 +23,8 @@
         modelName="collection"
       ></ChannelCard>
     </div>
-    <a-empty description="no data" v-else style="margin-top: 50px" />
+
+    <a-empty description="no collection" v-else style="margin-top: 50px" />
   </main>
 </template>
 
@@ -37,7 +38,9 @@ const store = useStore();
 const router = useRouter();
 
 const collectionChannel = computed(() =>
-  store.state.collectionChannel ? store.state.collectionChannel : null
+  store.state.collectionChannel.length > 0
+    ? store.state.collectionChannel
+    : null
 );
 </script>
 

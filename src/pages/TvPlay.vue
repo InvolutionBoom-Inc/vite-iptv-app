@@ -24,7 +24,7 @@
       v-if="isCollection == void 0"
       type="primary"
       style="margin-top: 50px"
-      @click="toCollect(playerInfo[0].name)"
+      @click="toCollect(playerInfo[0])"
       >收藏本台</a-button
     >
 
@@ -32,7 +32,7 @@
       v-else
       type="primary"
       style="margin-top: 50px"
-      @click="toUnCollect(playerInfo[0].name)"
+      @click="toUnCollect(playerInfo[0])"
       >取消收藏</a-button
     >
   </div>
@@ -45,6 +45,7 @@ import { computed, onMounted, onUnmounted } from "vue";
 import { useStore } from "vuex";
 import { message } from "ant-design-vue";
 import { back } from "../hooks/utils.js";
+import { toCollect, toUnCollect } from "../hooks/user.js";
 
 // tv详情模块
 const store = useStore();
@@ -60,33 +61,6 @@ const isCollection = computed(() =>
     (item) => item.name === playerInfo.value[0].name
   )
 );
-
-// 收藏频道
-const toCollect = (channelName) => {
-  if (store.state.collectionChannel.find((item) => item.name === channelName)) {
-    message.info(channelName + " have been collected", 0.5);
-    return;
-  }
-
-  store.commit("addCollection", playerInfo.value[0]);
-  message.success(channelName + " was successfully collected", 0.5);
-};
-
-// 取消收藏频道
-const toUnCollect = (channelName) => {
-  console.log(store.state.collectionChannel);
-  if (store.state.collectionChannel.find((item) => item.name === channelName)) {
-    store.commit(
-      "deleteCollection",
-      store.state.collectionChannel.findIndex(
-        (item) => item.name === channelName
-      )
-    );
-
-    message.warning(channelName + "has been cancelled.", 0.5);
-    return;
-  }
-};
 
 onMounted(() => {
   store.commit("deleteSearchResultInfo");

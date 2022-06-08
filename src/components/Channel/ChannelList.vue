@@ -61,6 +61,19 @@
                 "
               ></div>
             </a-tooltip>
+
+            <a
+              key="list-loadmore-edit"
+              @click="toCollect(item)"
+              v-if="modelName == 'main'"
+              >收藏本台</a
+            >
+            <a
+              key="list-loadmore-edit"
+              @click="toUnCollect(item)"
+              v-if="modelName == 'collection'"
+              >取消收藏</a
+            >
           </template>
 
           <a-list-item-meta
@@ -89,6 +102,7 @@ import { computed, onUpdated, ref, toRefs, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { testURL } from "../../http/api/user.js";
+import { toCollect, toUnCollect } from "../../hooks/user.js";
 
 const props = defineProps({
   iptvListAll: {
@@ -221,9 +235,6 @@ onUpdated(() => {
       text-align: left;
       padding-left: 40px;
       align-self: center;
-    }
-
-    .ant-list-items {
     }
 
     .ant-list-item {
