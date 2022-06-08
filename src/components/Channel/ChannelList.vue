@@ -6,6 +6,11 @@
       :data-source="iptvListShow"
       @scroll="scrollChannelList"
       ref="channelList"
+      :style="
+        modelName == 'main'
+          ? `overflow-y: scroll;height: 80vh;`
+          : `overflow-y: scroll;`
+      "
     >
       <template #loadMore>
         <div
@@ -25,18 +30,9 @@
             "
             >loading more</a-button
           >
-          <a-button disabled v-else>Generate group</a-button>
         </div>
       </template>
       <template #renderItem="{ item }">
-        <!-- <swiper
-          :slides-per-view="1"
-          :space-between="50"
-          :initial-slide="0"
-          :speed="200"
-          @transition-end="transitionEnd"
-        >
-          <swiper-slide> -->
         <a-list-item>
           <template #actions>
             <a-tooltip
@@ -65,18 +61,6 @@
                 "
               ></div>
             </a-tooltip>
-            <a
-              key="list-loadmore-edit"
-              @click="toCollect(item.name)"
-              v-if="modelName == 'main'"
-              >收藏本台</a
-            >
-            <a
-              key="list-loadmore-edit"
-              @click="toUnCollect(item.name)"
-              v-if="modelName == 'collection'"
-              >取消收藏</a
-            >
           </template>
 
           <a-list-item-meta
@@ -93,12 +77,6 @@
             </template>
           </a-list-item-meta>
         </a-list-item>
-        <!-- </swiper-slide> -->
-
-        <!-- <swiper-slide class="collection-slide">
-            <a key="list-loadmore-edit">收藏本台</a></swiper-slide
-          >
-        </swiper> -->
       </template>
     </a-list>
   </div>
@@ -111,8 +89,6 @@ import { computed, onUpdated, ref, toRefs, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { testURL } from "../../http/api/user.js";
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { message } from "ant-design-vue";
 
 const props = defineProps({
   iptvListAll: {
@@ -142,10 +118,7 @@ const iptvListShow = computed(() => {
     return iptvListAll.value.slice(0, currentPage.value * pageSize.value);
   }
 });
-watch(iptvListAll, (item) => {
-  console.log(item);
-});
-console.log(iptvListAll.value);
+
 const handlerScroll = (val) => {
   console.log(val);
 };
@@ -176,13 +149,13 @@ const testChannel = async (url) => {
   }
 };
 
-// const transitionEnd = (item) => {
-//   console.log(item);
-// };
-
 // 滑动到底部显示loading按钮
 const isCanLoad = ref(false);
 const scrollChannelList = (e) => {
+  console.log(
+    Math.ceil(e.srcElement.scrollTop + e.srcElement.clientHeight) >=
+      e.srcElement.scrollHeight
+  );
   store.commit("updateChannelListScrollTop", e.srcElement.scrollTop);
 
   if (
@@ -199,33 +172,6 @@ const channelList = ref(null);
 onUpdated(() => {
   channelList.value.$el.scrollTo(0, store.state.channelListScrollTop);
 });
-
-const toCollect = (channelName) => {
-  if (store.state.collectionChannel.find((item) => item.name === channelName)) {
-    message.info(channelName + " have been collected", 0.5);
-    return;
-  }
-
-  message.success(channelName + " was successfully collected", 0.5);
-
-  store.commit(
-    "addCollection",
-    iptvListAll.value.find((item) => item.name === channelName)
-  );
-};
-
-const toUnCollect = (channelName) => {
-  if (store.state.collectionChannel.find((item) => item.name === channelName)) {
-    store.commit(
-      "deleteCollection",
-      store.state.collectionChannel.findIndex(
-        (item) => item.name === channelName
-      )
-    );
-
-    return;
-  }
-};
 </script>
 
 <style lang="scss">
@@ -235,8 +181,6 @@ const toUnCollect = (channelName) => {
 
 @media screen and (max-width: 1024px) {
   .demo-loadmore-list {
-    overflow-y: scroll;
-    height: 100vh;
     .loading-button {
       // position: fixed;
       position: relative;

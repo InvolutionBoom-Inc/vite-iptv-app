@@ -1,8 +1,7 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, onUnmounted, watch } from "vue";
+import { onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { testURL } from "./http/api/user.js";
 import { message } from "ant-design-vue";
 
 const route = useRoute();

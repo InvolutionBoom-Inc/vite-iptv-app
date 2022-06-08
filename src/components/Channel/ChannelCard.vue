@@ -74,7 +74,7 @@
 <script setup>
 // iptv列表展示模块 screen web端
 import { useStore } from "vuex";
-import { computed, ref, toRefs, watch } from "vue";
+import { computed, onMounted, ref, toRefs, watch } from "vue";
 import { useRouter } from "vue-router";
 import { testURL } from "../../http/api/user.js";
 
@@ -83,6 +83,7 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  modelName: String,
 });
 
 const { iptvListAll } = toRefs(props);
@@ -113,11 +114,14 @@ const iptvListShow = computed(() => {
     return store.state.searchResultInfo;
   }
 
-  if (iptvListAll.value) {
+  if (iptvListAll.value != null && props.modelName == "main") {
     return iptvListAll.value.slice(
       (currentPage.value - 1) * 10,
       currentPage.value * pageSize.value
     );
+  }
+  if (iptvListAll.value != null && props.modelName == "collection") {
+    return iptvListAll.value;
   }
 });
 

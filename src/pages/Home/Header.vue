@@ -52,7 +52,7 @@
 <script setup>
 // 搜索模块
 import { StarOutlined } from "@ant-design/icons-vue";
-import { ref, toRefs, watch } from "vue";
+import { onUnmounted, ref, toRefs, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { back } from "../../hooks/utils.js";
@@ -117,6 +117,10 @@ const handleSearch = (val) => {
 
   dataSource.value = val ? searchResult(val) : [];
 };
+
+onUnmounted(() => {
+  store.commit("deleteSearchResultInfo");
+});
 </script>
 
 <style lang="scss">
